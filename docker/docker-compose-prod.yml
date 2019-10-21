@@ -1,0 +1,43 @@
+version: '3.3'
+
+services:
+  serviceskeleton_db:
+    container_name: serviceskeleton_mysql
+    image: mysql:5.7.27
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'serviceskeleton'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '33066:3306'
+    expose:
+      - '3306'
+    volumes:
+      - service_db:/var/lib/serviceskeleton_mysqldb
+
+  serviceskeleton_app:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    environment:
+      - CLUSTER_NAME=Cluster Name
+      - COUNTRY_NAME=Country
+      - SERVICE_NAME=serviceskeleton
+      - DB_HOST=serviceskeleton_db
+      - DB_PORT=3306
+      - DB_USE_SSL=false
+      - DB_NAME=serviceskeleton
+      - DB_USER=user
+      - DB_PASSWORD=password
+    ports:
+      - "9001:8080"
+    depends_on:
+      - serviceskeleton_db
+    links:
+      - serviceskeleton_db
+
+
+volumes:
+  service_db:
