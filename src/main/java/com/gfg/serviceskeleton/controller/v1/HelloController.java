@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -36,6 +37,7 @@ public class HelloController {
             @ApiResponse(code = 200, message = "Processed successfully", response = HelloDTO.class),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HelloDTO> getByUuid(@PathVariable String uuid) {
         Hello hello = helloService.getByUuid(uuid);
@@ -51,6 +53,7 @@ public class HelloController {
             @ApiResponse(code = 200, message = "Processed successfully", response = HelloDTO.class, responseContainer = "List"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<HelloDTO>> getAll() {
         List<Hello> hellos = helloService.getAll();
@@ -67,6 +70,7 @@ public class HelloController {
             @ApiResponse(code = 200, message = "Processed successfully", response = Object.class),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity delete(@PathVariable String uuid) {
         Hello hello = helloService.getByUuid(uuid);
@@ -83,6 +87,7 @@ public class HelloController {
             @ApiResponse(code = 200, message = "Processed successfully", response = HelloDTO.class),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found.")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HelloDTO> update(@PathVariable String uuid, @Valid @RequestBody HelloDTO helloDTO) {
         Hello hello = mapper.map(helloDTO, Hello.class);
@@ -100,6 +105,7 @@ public class HelloController {
             @ApiResponse(code = 201, message = "Processed successfully", response = HelloDTO.class),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity create(@Valid @RequestBody HelloDTO helloDTO) {
         Hello hello = mapper.map(helloDTO, Hello.class);

@@ -31,6 +31,7 @@ services:
       - DB_NAME=serviceskeleton
       - DB_USER=user
       - DB_PASSWORD=password
+      - JWT_SECRET=HIUFH7yerfhiuerh78498HU
     ports:
       - "9001:8080"
     depends_on:
