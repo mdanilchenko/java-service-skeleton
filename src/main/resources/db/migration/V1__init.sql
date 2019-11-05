@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS `hello` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(200) NOT NULL,
+  `uuid` VARCHAR(36) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uuid` (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;

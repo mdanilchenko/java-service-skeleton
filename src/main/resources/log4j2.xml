@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Appenders>
+        <Console name="ConsoleJSONAppender" target="SYSTEM_OUT">
+            <JsonLayout complete="false" compact="true" eventEol="true">
+                <KeyValuePair key="cluster" value="${env:CLUSTER_NAME}" />
+                <KeyValuePair key="country" value="${env:COUNTRY_NAME}" />
+                <KeyValuePair key="service" value="${env:SERVICE_NAME}" />
+            </JsonLayout>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="CONSOLE_JSON_APPENDER" level="TRACE" additivity="false">
+            <AppenderRef ref="ConsoleJSONAppender" />
+        </Logger>
+
+        <Root level="WARN">
+            <AppenderRef ref="ConsoleJSONAppender" />
+        </Root>
+    </Loggers>
+</Configuration>
